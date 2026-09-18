@@ -336,3 +336,5 @@ main{padding-top:12px}
 .back .maps{color:#bc4764;padding-bottom:6px;text-underline-offset:4px}
 .back .back-join{margin-top:12px}
 @media(min-width:700px){.back .back-join{margin-top:10px}}
+
+@media(max-width:699px){.rail{align-items:flex-start}.venue:not(.is-current) .availability{display:none!important}}

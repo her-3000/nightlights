@@ -95,8 +95,9 @@
     }
     apply.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();openForm(apply)});
     join.addEventListener('click',()=>openForm(join));
-    function close(){if(submitting)return;dates.close();clearTimeout(openingTimer);form.hidden=true;arrival.hidden=true;article.classList.remove('eyes-open');availability.classList.remove('application-open');apply.setAttribute('aria-expanded','false');join.hidden=false;join.classList.remove('join-opening');join.disabled=false;opener.focus({preventScroll:true})}
-    form.querySelector('.sheet-close').addEventListener('click',close);
+    function close(restoreFocus=true){if(submitting||complete)return;reuse.hidden=true;availability.classList.remove('has-suggestion');dates.close();clearTimeout(openingTimer);form.hidden=true;arrival.hidden=true;article.classList.remove('eyes-open');availability.classList.remove('application-open');apply.setAttribute('aria-expanded','false');join.hidden=false;join.classList.remove('join-opening');join.disabled=false;if(restoreFocus)opener.focus({preventScroll:true})}
+    form.querySelector('.sheet-close').addEventListener('click',()=>close());
+    article.addEventListener('venue-front',()=>close(false));
     form.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
     form.addEventListener('submit',event=>{
       event.preventDefault();if(submitting||complete)return;
@@ -117,6 +118,16 @@
         setTimeout(()=>{if(matchMedia('(max-width:699px)').matches)document.querySelector('.steps').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'end'})},1000)},2800);
     });
   });
+  // Off-screen suggestions must not determine the phone carousel's height.
+  const venueRail=document.querySelector('.rail'),venueCards=[...venueRail.querySelectorAll('.venue')];
+  let railFrame=0;
+  function syncCurrentVenue(){
+    railFrame=0;const edge=venueRail.getBoundingClientRect().left+parseFloat(getComputedStyle(venueRail).paddingLeft);
+    const current=venueCards.reduce((best,card)=>Math.abs(card.getBoundingClientRect().left-edge)<Math.abs(best.getBoundingClientRect().left-edge)?card:best,venueCards[0]);
+    venueCards.forEach(card=>card.classList.toggle('is-current',card===current));
+  }
+  venueRail.addEventListener('scroll',()=>{if(!railFrame)railFrame=requestAnimationFrame(syncCurrentVenue)},{passive:true});
+  window.addEventListener('resize',syncCurrentVenue);syncCurrentVenue();
   startFigureColours();
   const glassSurfaces=[...document.querySelectorAll('.glass-logo,.guest-sheet')];
   glassSurfaces.forEach(surface=>{
