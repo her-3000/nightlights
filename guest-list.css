@@ -23,3 +23,43 @@
 .social-field label{font-size:11px;color:#817b89a6;font-weight:500}.social-field input{background:#ffffff0c;border-color:#ffffff45;box-shadow:none;color:#746c7f}.social-field input::placeholder{font-size:13px;color:#82798c66;opacity:1}.field-help{color:#817889a6;font-weight:400}
 .guest-sheet .submit-guest{background:transparent;border:0;box-shadow:none;color:#736b7d;font-weight:550}.submit-guest::before{background:linear-gradient(90deg,#9df1a38c,#60cf989e)}
 @media(prefers-contrast:more){.guest-sheet{background:#faf4ffeb;color:#44394f}.social-field input{background:#fff;color:#44394f}.social-field input::placeholder{color:#746a7d}}
+
+/* The small logo needs an empty lens, with light confined to its edge. */
+.glass-logo{background:transparent;border-color:#ffffff24;box-shadow:0 3px 10px #44344e08;backdrop-filter:none;-webkit-backdrop-filter:none}
+.glass-logo::before{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:inset .5px .5px .7px #ffffff38,inset -.5px -.5px 1px #625e7912}
+.glass-logo::after{padding:.75px;opacity:.32}
+
+/* Use available space; venue content stays interchangeable. */
+@media(min-width:700px){
+ .meter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 0;justify-items:stretch}
+ .meter span{width:100%;height:184px}
+}
+@media(min-width:700px) and (max-width:1099px){
+ .rail{padding-inline:max(24px,calc((100% - 340px)/2 - 48px));scroll-padding-inline:max(24px,calc((100% - 340px)/2 - 48px))}
+ .venue{scroll-snap-align:start}
+}
+@media(min-width:1100px){
+ main{max-width:1280px}
+ .rail{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;padding:12px 28px 28px;overflow:visible;scroll-snap-type:none;cursor:default}
+ .rail:active{cursor:default}
+ .venue{min-width:0;max-width:none;width:100%}
+}
+
+.apply-now{display:none}
+.application-arrival[hidden]{display:none}
+@media(min-width:1100px){
+ .back .apply-now{display:block;color:#c93643;text-decoration:underline;text-underline-offset:4px;font-size:15px;font-weight:700;padding:12px 0;min-height:44px}
+ .venue .availability{display:none;padding-top:20px}
+ .venue .availability.application-open{display:block;min-height:300px}
+ .availability .meter,.availability>.request{display:none!important}
+ .availability .guest-sheet{position:relative;inset:auto;width:100%;margin:0}
+ .application-arrival{height:270px;display:flex;align-items:center;justify-content:space-evenly;overflow:hidden}
+ .application-arrival span{width:18px;height:18px;border-radius:50%;background:#9df1a3;animation:arrival-float 1.6s ease-in-out infinite;opacity:.65}
+ .application-arrival span:nth-child(2){background:#a0d7fa;animation-delay:-.3s}
+ .application-arrival span:nth-child(3){background:#fcdfbc;animation-delay:-.8s}
+ .application-arrival span:nth-child(4){background:#fc7276;animation-delay:-.5s}
+ .application-arrival span:nth-child(5){background:#c8a0fa;animation-delay:-1.2s}
+ .application-arrival span:nth-child(6){background:#f9e58f;animation-delay:-1s}
+}
+@keyframes arrival-float{0%,100%{transform:translateY(15px);opacity:.35}50%{transform:translateY(-18px);opacity:.8}}
+@media(prefers-reduced-motion:reduce){.application-arrival span{animation:none}}
