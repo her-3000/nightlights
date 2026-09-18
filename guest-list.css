@@ -286,3 +286,6 @@ main{padding-top:12px}
 .reuse-details button:disabled{opacity:.38;cursor:default}
 @media(max-width:800px) and (min-width:700px){.glass-calendar{padding:8px;left:3px;right:3px}.calendar-header{gap:1px}.calendar-header strong{font-size:9px}.calendar-header button{min-width:20px;padding:3px}.calendar-day{font-size:10px;min-height:29px}.calendar-days{gap:2px}}
 @media(prefers-reduced-motion:reduce){.calendar-day{transition:none}}
+
+/* A soft gold highlighter stroke keeps the invitation warm and understated. */
+.friends-highlight{color:inherit;font-weight:600;padding:1px 5px 2px;margin-inline:1px;border-radius:5px;background:linear-gradient(177deg,transparent 13%,#f9e58f66 22%,#f9e58f8c 76%,transparent 88%);box-decoration-break:clone;-webkit-box-decoration-break:clone}
