@@ -363,3 +363,9 @@ html:lang(th) .detail,html:lang(th) .perk{line-height:1.65}
  .steps .paid-note{margin-top:36px}
  .steps .footer-eyes{height:590px;top:50%;transform:translateY(-50%)}
 }
+
+/* Centre the language pill above the headline on phones and tablets. */
+@media(max-width:1099px){
+ .language-switch{margin:12px auto 18px}
+ .hero h1.neon-headline{margin-bottom:20px}
+}
