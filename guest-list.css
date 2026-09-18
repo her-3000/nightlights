@@ -195,3 +195,21 @@ header .glass-logo img{width:156px}
 .steps .footer-eyes{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:-1;pointer-events:none;mix-blend-mode:multiply;opacity:0;mask-image:radial-gradient(ellipse,#000 35%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse,#000 35%,transparent 75%);transition:opacity 10s ease}
 .steps.eyes-visible .footer-eyes{opacity:.18;transition-duration:2.5s}
 @media(prefers-reduced-motion:reduce){.steps .footer-eyes{transition:none}.guest-sheet>.form-figures{opacity:.48}}
+
+/* Centre the visible lettering (the PNG has asymmetric transparent margins). */
+.hero h1.neon-headline{transform:translateX(-.45%);margin-bottom:12px}
+@media(max-width:699px){
+ .rail{gap:14px;padding-inline:20px;scroll-padding-inline:20px}
+ .venue{flex-basis:min(340px,80vw);max-width:none;scroll-snap-align:start}
+ .front h2{font-size:clamp(34px,10vw,48px)}
+}
+/* Tablet space is a three-card grid, with further venues wrapping naturally. */
+@media(min-width:700px) and (max-width:1099px){
+ .rail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:8px 20px 16px;overflow:visible;scroll-snap-type:none;cursor:default}
+ .rail:active{cursor:default}
+ .venue{width:100%;min-width:0;max-width:none}
+ .front{padding:20px 16px}.front h2{font-size:clamp(29px,4.3vw,44px);letter-spacing:-1.5px}
+ .perk{font-size:12px}.back{padding:12px}.back h2{font-size:22px}.back .sub,.back .detail{font-size:11px}
+ .guest-sheet{padding:14px 10px 10px}.guest-sheet h3{margin:0 0 10px}.title-button{font-size:11px;width:202px}
+ .hero h1.neon-headline{margin-bottom:8px}
+}
