@@ -20,18 +20,18 @@
     availability.append(arrival);
     const result=document.createElement('section');result.className='application-result';result.hidden=true;result.tabIndex=-1;result.setAttribute('aria-live','polite');
     const venueName=article.querySelector('.front h2').textContent;
-    result.innerHTML='<span class="joined-badge">On the waitlist</span><h3></h3><p>Updates via LINE.</p>';
+    result.innerHTML='<span class="joined-badge">Submitted ♥</span><h3></h3><p>Updates via LINE.</p>';
     result.querySelector('h3').textContent=venueName+' application';availability.append(result);
     const form = document.createElement('form');
     form.id = `guest-${article.id}`; form.className = 'guest-sheet'; form.hidden = true; form.noValidate = true;
     const prefix = `guest-${article.id}`;
     form.setAttribute('aria-label', `${article.querySelector('.front h2').textContent} guest list`);
-    form.innerHTML = `<button class="sheet-close" type="button" aria-label="Close guest form">×</button><h3><button class="title-button" type="button">Start here</button></h3><div class="social-switch" role="tablist" aria-label="Social accounts">${platforms.map((p,i)=>`<button type="button" role="tab" id="${prefix}-${p.key}-tab" aria-controls="${prefix}-${p.key}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-index="${i}">${p.name}</button>`).join('')}</div>${platforms.map((p,i)=>`<div class="social-field" role="tabpanel" id="${prefix}-${p.key}-panel" aria-labelledby="${prefix}-${p.key}-tab" ${i?'hidden':''}><label for="${prefix}-${p.key}">${p.label}</label><input id="${prefix}-${p.key}" name="${p.key}" placeholder="${p.placeholder}" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" required></div>`).join('')}<div class="visit-dates"></div><p class="field-help" aria-live="polite">Add your three accounts. Tap or slide to switch.</p><button class="submit-guest" type="submit" hidden><span aria-live="polite">Submit</span></button>`;
+    form.innerHTML = `<button class="sheet-close" type="button" aria-label="Close guest form">×</button><h3><button class="title-button" type="button">Book ${venueName}</button></h3><div class="social-switch" role="tablist" aria-label="Social accounts">${platforms.map((p,i)=>`<button type="button" role="tab" id="${prefix}-${p.key}-tab" aria-controls="${prefix}-${p.key}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-index="${i}">${p.name}</button>`).join('')}</div>${platforms.map((p,i)=>`<div class="social-field" role="tabpanel" id="${prefix}-${p.key}-panel" aria-labelledby="${prefix}-${p.key}-tab" ${i?'hidden':''}><label for="${prefix}-${p.key}">${p.label}</label><input id="${prefix}-${p.key}" name="${p.key}" placeholder="${p.placeholder}" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" required></div>`).join('')}<div class="visit-dates"></div><p class="field-help" aria-live="polite">Add your three accounts. Tap or slide to switch.</p><button class="submit-guest" type="submit" hidden><span aria-live="polite">Submit</span></button>`;
     const formFigures=article.querySelector('.meter').cloneNode(true);formFigures.className='form-figures';form.prepend(formFigures);
     const artwork=document.createElement('img');artwork.className='application-art';artwork.src='assets/sailor-moon-application.jpg';artwork.alt='';artwork.setAttribute('aria-hidden','true');form.prepend(artwork);
     article.querySelector('.availability').append(form);
     form.querySelector('.title-button').insertAdjacentHTML('beforeend', join.querySelector('svg').outerHTML);
-    const titleOrbit=form.querySelector('.title-button svg');titleOrbit.setAttribute('viewBox','0 0 116 34');titleOrbit.setAttribute('preserveAspectRatio','none');titleOrbit.querySelectorAll('rect').forEach(rect=>{rect.setAttribute('width','113');rect.setAttribute('height','31');rect.setAttribute('rx','15.5')});
+    const titleOrbit=form.querySelector('.title-button svg');titleOrbit.setAttribute('viewBox','0 0 160 34');titleOrbit.setAttribute('preserveAspectRatio','none');titleOrbit.querySelectorAll('rect').forEach(rect=>{rect.setAttribute('width','157');rect.setAttribute('height','31');rect.setAttribute('rx','15.5')});
     form.querySelector('.title-button').addEventListener('click',()=>form.querySelectorAll('.social-field input')[selected].focus({preventScroll:true}));
     const tabs = [...form.querySelectorAll('[role=tab]')], panels = [...form.querySelectorAll('[role=tabpanel]')], inputs = [...form.querySelectorAll('.social-field input')];
     const toggle = form.querySelector('.social-switch'), submit = form.querySelector('.submit-guest'), status = form.querySelector('.field-help');
@@ -39,24 +39,29 @@
     const dates = createNightDates(form.querySelector('.visit-dates'), prefix);
     const reuse = document.createElement('section');
     reuse.className='reuse-details';reuse.hidden=true;
-    reuse.innerHTML='<p class="reuse-heading"></p><p class="reuse-question">Join this venue as well?</p><p class="reuse-summary"></p><button type="button">Start here</button><small>Complete your three accounts first</small>';
-    reuse.querySelector('.reuse-heading').textContent=venueName;
+    reuse.innerHTML='<p class="reuse-question">Join this venue as well?</p><p class="reuse-summary"></p><div class="reuse-dates"></div><button class="reuse-book" type="button"></button><small>Finish your three accounts first</small>';
+    reuse.querySelector('.reuse-book').textContent='Book '+venueName;
     availability.append(reuse);
+    const reuseDates=createNightDates(reuse.querySelector('.reuse-dates'),prefix+'-suggested');
     let suggested = null;
     reuseTargets.push({article, offer(details) {
       if(complete || submitting || inputs.some(input=>input.value.trim()))return;
       suggested={...details};
-      const ready=platforms.every(p=>details[p.key]&&details[p.key]!=='@');
-      reuse.querySelector('button').disabled=!ready;
-      reuse.querySelector('small').textContent=ready?'Use these details · choose your dates':'Complete your three accounts first';
+      const count=platforms.filter(p=>details[p.key]&&details[p.key]!=='@').length;
+      const ready=count===3;
+      reuse.querySelector('.reuse-book').disabled=!ready;
+      reuse.querySelector('small').textContent=ready?'Choose your dates':'Finish your three accounts first';
       reuse.querySelector('.reuse-summary').textContent=platforms.map(p=>p.name+': '+(details[p.key]||'—')).join(' · ');
-      const any=platforms.some(p=>details[p.key]);reuse.hidden=!any;availability.classList.toggle('has-suggestion',any);
+      const wasHidden=reuse.hidden;reuse.hidden=count<2;availability.classList.toggle('has-suggestion',count>=2);
+      if(count>=2 && wasHidden)reuseDates.open();
     }});
-    reuse.querySelector('button').addEventListener('click',()=>{
+    reuse.querySelector('.reuse-book').addEventListener('click',()=>{
       if(!suggested||!platforms.every(p=>suggested[p.key]&&suggested[p.key]!=='@'))return;
+      const chosen=reuseDates.values();
+      if(!chosen.length){reuse.querySelector('small').textContent='Choose at least one date';reuseDates.focus();return}
       inputs.forEach((input,i)=>{if(!input.value.trim()){input.value=suggested[platforms[i].key];tabs[i].classList.add('is-filled')}});
-      reuse.hidden=true;availability.classList.remove('has-suggestion');openForm(apply);
-      dates.focus();
+      dates.setValues(chosen);reuse.hidden=true;availability.classList.remove('has-suggestion');openForm(apply);
+      form.requestSubmit();
     });
 
     function select(index, focusTab=false) {
@@ -102,9 +107,9 @@
       reuse.hidden=true;availability.classList.remove('has-suggestion');dates.lock();
       submitting=true;submit.disabled=true;form.setAttribute('aria-busy','true');form.querySelector('.sheet-close').disabled=true;
       inputs.forEach(input=>input.readOnly=true);submit.classList.add('is-loading');status.textContent='Submitting…';
-      setTimeout(()=>{submitting=false;complete=true;submit.classList.remove('is-loading');submit.classList.add('is-complete');submit.querySelector('span').textContent='Submitted';form.removeAttribute('aria-busy');form.querySelector('.sheet-close').disabled=false;status.textContent='Submitted.';
+      setTimeout(()=>{submitting=false;complete=true;submit.classList.remove('is-loading');submit.classList.add('is-complete');submit.querySelector('span').textContent='Submitted ♥';form.removeAttribute('aria-busy');form.querySelector('.sheet-close').disabled=false;status.textContent='Submitted.';
         form.hidden=true;arrival.hidden=true;article.classList.add('is-submitted');result.hidden=false;
-        apply.textContent='Waitlisted';apply.disabled=true;apply.classList.add('is-confirmed');join.hidden=true;
+        apply.textContent='Submitted ♥';apply.disabled=true;apply.classList.add('is-confirmed');join.hidden=true;
         result.querySelector('h3').textContent=venueName+' · '+chosenDates.map(dates.format).join(', ');
         const details=Object.fromEntries(inputs.map((input,i)=>[platforms[i].key,input.value.trim()]));
         reuseTargets.forEach(target=>{if(target.article!==article)target.offer(details)});

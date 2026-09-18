@@ -302,3 +302,23 @@ main{padding-top:12px}
 .guest-sheet>.application-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:-1;pointer-events:none;mix-blend-mode:multiply;opacity:0;mask-image:radial-gradient(ellipse,#000 32%,transparent 74%);-webkit-mask-image:radial-gradient(ellipse,#000 32%,transparent 74%);animation:application-portrait 12s ease-in-out 2s forwards}
 @keyframes application-portrait{0%{opacity:.02}100%{opacity:.18}}
 @media(prefers-reduced-motion:reduce){.guest-sheet>.application-art{animation:none;opacity:.18}}
+
+/* Match the footer rhythm to the venue columns, even after forms expand. */
+.steps{max-width:none;width:100%}
+.steps-grid{display:grid;grid-template-columns:1fr;gap:10px;text-align:center}
+.steps .steps-grid p{display:block;margin:0;line-height:1.6}
+.steps-grid strong{display:block}
+@media(min-width:700px){.steps{padding-inline:20px}.steps-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
+@media(min-width:1100px){.steps{padding-inline:28px}.steps-grid{gap:28px}}
+.title-button{width:160px}
+.reuse-details .glass-calendar{position:relative;inset:auto;margin:6px 0;background:linear-gradient(135deg,#f6f0fc50,#e7dff229);box-shadow:inset 0 1px #ffffff66}
+.reuse-details .dates-toggle,.reuse-details .calendar-done{display:none}
+.reuse-details .calendar-header strong{font-size:11px}
+.reuse-details .calendar-day{color:#8b7996;background:#ffffff20}
+.reuse-details .calendar-day[aria-pressed=true]{color:white;background:#aa89c89c}
+.reuse-details .calendar-day.is-past{color:#a69eae65;background:transparent}
+.reuse-details .calendar-day.is-unavailable{color:#aa7d895e}
+.reuse-details .reuse-book{border-radius:99px;color:#78548e;border:1px solid #a88abb55;padding-inline:20px}
+.back .back-join.is-confirmed,.joined-badge{background:linear-gradient(135deg,#f4bedbcc,#e994c3bb);color:#88375f;box-shadow:inset 0 1px #fff8}
+.submit-guest.is-complete::before{background:linear-gradient(90deg,#f4bedb,#e994c3)}
+.guest-sheet .submit-guest.is-complete{color:#88375f}

@@ -31,10 +31,10 @@ window.createNightDates = function(host, id) {
     }
   }
   function open(){if(locked)return;render();panel.hidden=false;toggle.setAttribute('aria-expanded','true');}
-  function close(){panel.hidden=true;toggle.setAttribute('aria-expanded','false');}
+  function close(){if(host.classList.contains('reuse-dates'))return;panel.hidden=true;toggle.setAttribute('aria-expanded','false');}
   toggle.addEventListener('click',()=>{if(panel.hidden)open();else close()});
   host.querySelector('.calendar-done').addEventListener('click',()=>{close();toggle.focus({preventScroll:true})});
   host.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){e.stopPropagation();close();toggle.focus({preventScroll:true})}});
   for(const [selector,delta] of [['.month-prev',-1],['.month-next',1]])host.querySelector(selector).addEventListener('click',()=>{const d=parse(shown);d.setUTCMonth(d.getUTCMonth()+delta);shown=key(d);render()});
-  return {values(){sync();return [...selected].sort()},focus(){open();(days.querySelector('button:not(:disabled)')||toggle).focus({preventScroll:true})},lock(){locked=true;close();toggle.disabled=true},close,format};
+  return {open,setValues(values){selected=new Set(values);sync();},values(){sync();return [...selected].sort()},focus(){open();(days.querySelector('button:not(:disabled)')||toggle).focus({preventScroll:true})},lock(){locked=true;close();toggle.disabled=true},close,format};
 };
