@@ -63,3 +63,130 @@
 }
 @keyframes arrival-float{0%,100%{transform:translateY(15px);opacity:.35}50%{transform:translateY(-18px);opacity:.8}}
 @media(prefers-reduced-motion:reduce){.application-arrival span{animation:none}}
+
+/* A quiet glass invitation between the first two figures' feet. */
+@media(max-width:1099px){
+ .meter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 0}
+ .meter span{width:100%}
+ .availability>.request{position:absolute;z-index:2;left:33.333%;top:174px;transform:translateX(-50%);width:auto;min-width:124px;min-height:44px;padding:8px 13px;border:0;border-radius:99px;background:linear-gradient(125deg,#d8c5ef12,#bca6dc08);color:#79628b;font-size:12px;font-weight:450;letter-spacing:.1px;box-shadow:inset 0 .5px #ffffff35;backdrop-filter:blur(.5px);-webkit-backdrop-filter:blur(.5px);transition:background .2s ease,color .2s ease}
+ .availability>.request:hover,.availability>.request:active{background:linear-gradient(125deg,#d8c5ef25,#bca6dc12);color:#695079;font-weight:450}
+ .availability>.request:focus-visible{outline:1px solid #9675ad;outline-offset:3px}
+}
+@media(min-width:700px) and (max-width:1099px){.availability>.request{top:182px}}
+
+/* Centred glass pill with a circulating purple highlight and fading tail. */
+@media(max-width:1099px){
+ .availability>.request{left:50%;width:144px;height:44px;padding:8px 12px;color:#67418a;font-weight:600;overflow:hidden;isolation:isolate;box-shadow:none}
+ .availability>.request:hover,.availability>.request:active{font-weight:600;color:#67418a}
+ .request>span{position:relative;z-index:1}
+ .join-orbit{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;fill:none;stroke:#8754b3;stroke-width:2.5;stroke-linecap:round}
+ .orbit-track{opacity:.17}
+ .orbit-tail{stroke-dasharray:38 62;opacity:.18;animation:join-orbit 4.8s linear infinite}
+ .orbit-mid{stroke-dasharray:25 75;opacity:.38;animation:join-orbit 4.8s linear infinite}
+ .orbit-head{stroke-dasharray:11 89;opacity:.9;animation:join-orbit 4.8s linear infinite}
+ .availability>.request::after{content:"";position:absolute;inset:-20% -50%;pointer-events:none;background:linear-gradient(110deg,transparent 40%,#f8acd52b 48%,#ffe1ef59 50%,#d5b3f12b 53%,transparent 61%);transform:translateX(-100%);animation:join-glint 9s ease-in-out infinite}
+}
+@keyframes join-orbit{to{stroke-dashoffset:-100}}
+@keyframes join-glint{0%,68%{transform:translateX(-100%)}90%,100%{transform:translateX(100%)}}
+@media(prefers-reduced-motion:reduce){.request .join-orbit rect,.availability>.request::after{animation:none}.availability>.request::after{display:none}}
+
+/* Six faint dancing colours sit behind the invitation, never above its text. */
+.back{isolation:isolate}
+.back>:not(.back-figures){position:relative;z-index:1}
+.back .back-figures{position:absolute;inset:20px 8px;z-index:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:12px 0;opacity:.16;pointer-events:none}
+.back-figures span{display:block;min-width:0;min-height:0;background:none}
+.back-figures span::before{content:"";display:block;width:100%;height:100%;background:var(--figure-ink);mask:url('assets/Sailor%20Moon.png') center/contain no-repeat;-webkit-mask:url('assets/Sailor%20Moon.png') center/contain no-repeat;transition:background-color 650ms ease-in-out}
+.back .back-join{align-self:flex-end;flex-shrink:0;min-height:44px;width:auto;margin:4px 0 0;padding:10px 17px;border:1px solid #e0c9ff55;border-radius:99px;background:linear-gradient(130deg,#c8a0fa25,#edb8d913);color:#f2e8ff;font-size:12px;font-weight:550;box-shadow:inset 0 1px #ffffff24;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.back .back-join:hover{background:#c8a0fa30}
+.application-arrival{height:270px;display:flex;align-items:center;justify-content:space-evenly;overflow:hidden}
+.application-arrival span{width:18px;height:18px;border-radius:50%;background:#c8a0fa;animation:arrival-float 1.6s ease-in-out infinite;opacity:.65}
+.application-arrival span:nth-child(2n){background:#f3b8dc;animation-delay:-.5s}
+.application-arrival span:nth-child(3n){background:#a0d7fa;animation-delay:-1s}
+@media(prefers-reduced-motion:reduce){.back-figures span::before{transition:none}.application-arrival span{animation:none}}
+
+/* Clear invitation glass and the eyes confirmation. */
+.back{background:linear-gradient(135deg,#ffffff0a,#cfb6ef08);color:#624775;border-color:#ffffff65;box-shadow:inset 0 1px 1px #ffffff75,0 5px 18px #5d357512;backdrop-filter:blur(.7px);-webkit-backdrop-filter:blur(.7px)}
+.back .eyebrow{color:#866394!important}.back .sub,.back .detail,.back .detail small{color:#775a88}.back .maps{color:#765296}.back .back-figures{opacity:.3}
+.back .back-join{position:relative;isolation:isolate;overflow:hidden;border:0;background:linear-gradient(130deg,#c8a0fa12,#edb8d90a);color:#70438f;width:144px;height:44px;padding:8px 12px;font-weight:600}
+.back-join .join-orbit{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;fill:none;stroke:#8754b3;stroke-width:2.5;stroke-linecap:round}
+.back-join .orbit-track{opacity:.17}.back-join .orbit-tail{stroke-dasharray:38 62;opacity:.18;animation:join-orbit 4.8s linear infinite}.back-join .orbit-mid{stroke-dasharray:25 75;opacity:.38;animation:join-orbit 4.8s linear infinite}.back-join .orbit-head{stroke-dasharray:11 89;opacity:.9;animation:join-orbit 4.8s linear infinite}
+.back .back-join.is-confirmed{background:#99dab84d;color:#317452;box-shadow:inset 0 1px #ffffff70}
+.application-result[hidden]{display:none}.application-result{position:relative;min-height:225px;text-align:center;padding:105px 12px 14px;isolation:isolate;animation:eyes-arrive .9s ease both;outline:none}
+.application-result img{position:absolute;inset:0 0 auto;width:100%;height:165px;object-fit:cover;object-position:center;opacity:.65;mix-blend-mode:multiply;mask-image:linear-gradient(transparent,#000 20%,#000 65%,transparent);-webkit-mask-image:linear-gradient(transparent,#000 20%,#000 65%,transparent);z-index:-1;pointer-events:none}
+.joined-badge{display:inline-block;background:#a0e1bb6b;border-radius:99px;color:#316c4c;font-size:12px;font-weight:650;padding:8px 15px;box-shadow:inset 0 1px #ffffff85}
+.application-result h3{font-size:15px;font-weight:550;margin:10px 0 5px;color:#65477b}.application-result p{font-size:12px;color:#756185;margin:0 0 8px}.application-result small{font-size:10px;color:#877591}
+.is-submitted .meter,.is-submitted .back-figures{display:none!important}.is-submitted .availability{display:block!important;min-height:0!important}
+@keyframes eyes-arrive{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@media(min-width:700px){
+ header{padding:10px 20px 4px}.glass-logo{height:52px}
+ main{padding:0 0 10px}.hero{padding:0 24px 8px}.hero h1.neon-headline{width:240px;margin:2px auto 6px}.hero p{font-size:12px}
+ .scene{height:330px}.back{padding:14px 20px}.back h2{font-size:24px;margin:5px 0}.back .sub{margin-bottom:6px}.back .detail{padding:5px 0;font-size:12px}.back .maps{padding:6px}.back .back-join{margin-top:2px}
+ .rail{padding-top:8px;padding-bottom:16px}.availability{padding-top:10px}.meter span{height:118px}.meter{gap:8px 0;min-height:244px}.availability>.request{top:106px}
+ .guest-sheet{padding:14px 14px 10px;inset:8px 0 auto}.guest-sheet h3{margin-bottom:10px;font-size:15px}.social-switch{margin-bottom:10px}.social-field input{min-height:44px;padding:9px}.field-help{margin:6px 3px 8px}
+ .steps{max-width:900px;padding:0 24px 4px}.ribbon{font-size:11px;line-height:1.4}.steps h2{font-size:16px;margin:8px 0}.steps p{display:inline-block;font-size:11px;margin:3px 8px;line-height:1.4}.steps .paid-note{display:block}.footer{font-size:9px;margin:6px 16px;line-height:1.35}
+}
+@media(min-width:1100px){.venue .availability.application-open{min-height:244px;padding-top:8px}.application-arrival{height:244px}.hero h1.neon-headline{width:200px}.scene{height:320px}}
+@media(prefers-reduced-motion:reduce){.application-result,.back-join .join-orbit rect{animation:none}}
+@media(min-width:700px){.back .detail{margin:3px 0;padding:2px 0;line-height:1.35}.back .eyebrow{font-size:9px}.back .maps{padding:5px}}
+@media(min-width:1100px){
+ header{padding-top:6px}.glass-logo{height:46px}
+ .hero h1.neon-headline{width:160px}.scene{height:300px}
+ .back h2{font-size:22px}.back .detail{font-size:11px}.back .sub{font-size:11px}
+ .application-result{min-height:180px;padding-top:75px}.application-result img{height:130px}
+ .venue .availability.application-open{min-height:230px}.application-arrival{height:230px}
+ .guest-sheet .social-switch{margin-bottom:5px;padding:2px}.guest-sheet h3{margin-bottom:6px}.guest-sheet .social-field label{margin-bottom:3px}.guest-sheet .field-help{min-height:0;margin:4px 3px}.guest-sheet .submit-guest{min-height:40px}
+}
+@media(min-width:1100px){.hero h1.neon-headline{width:130px}.rail{padding-bottom:8px}main{padding-bottom:0}.footer{margin-top:2px}}
+
+/* Calm card CTA, with the animated invitation around the form title. */
+header{position:sticky;top:0;z-index:10;transform:none;will-change:auto}.glass-logo{text-decoration:none}
+.back .back-join{align-self:center;background:#8050a6;color:#fff;box-shadow:inset 0 1px #ffffff20;font-weight:550;width:auto;min-width:144px}
+.back .back-join:hover{background:#734596}.back .back-join.is-confirmed{background:#5b9b77;color:#fff}
+.eyes-open .meter{visibility:hidden}.eyes-open .back-figures{opacity:0}
+.guest-sheet{isolation:isolate}.guest-sheet>.form-eyes{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.3;z-index:-1;pointer-events:none;mix-blend-mode:multiply;animation:eyes-arrive .55s ease both}
+.guest-sheet h3{margin:0 24px 10px;line-height:1}
+.title-button{position:relative;isolation:isolate;min-height:34px;height:34px;max-width:100%;width:202px;padding:6px 9px;border:0;border-radius:99px;background:#eee1f20a;color:#725381;font-size:12px;font-weight:550;white-space:nowrap}
+.title-button .join-orbit{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;fill:none;stroke:#8754b3;stroke-width:2.5;stroke-linecap:round}
+.title-button .orbit-track{opacity:.12}.title-button .orbit-tail{stroke-dasharray:38 62;opacity:.15;animation:join-orbit 4.8s linear infinite}.title-button .orbit-mid{stroke-dasharray:25 75;opacity:.35;animation:join-orbit 4.8s linear infinite}.title-button .orbit-head{stroke-dasharray:11 89;opacity:.9;animation:join-orbit 4.8s linear infinite}
+.application-result img{inset:0;width:100%;height:100%;object-fit:contain;object-position:center;mask-image:none;-webkit-mask-image:none;opacity:.3}
+@media(prefers-reduced-motion:reduce){.title-button .join-orbit rect,.guest-sheet>.form-eyes{animation:none}}
+
+/* The application grows the page only after joining; artwork stays behind the fields. */
+.venue .availability{display:none;padding-top:12px}
+.venue .availability.application-open{display:block;min-height:0}
+.availability>.meter,.availability>.request{display:none!important}
+.availability .guest-sheet{position:relative;inset:auto;width:100%;margin:0;isolation:isolate}
+.guest-sheet>.form-figures{position:absolute;inset:12px 8px;z-index:-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:6px;pointer-events:none;animation:form-figures-fade 10s ease-in-out both}
+.form-figures span{display:block;width:100%;height:100%;min-height:0;background:none}
+.form-figures span::before{content:"";display:block;width:100%;height:100%;background:var(--figure-ink);mask:url('assets/Sailor%20Moon.png') center/contain no-repeat;-webkit-mask:url('assets/Sailor%20Moon.png') center/contain no-repeat;transition:background-color 650ms ease-in-out}
+.guest-sheet>.form-eyes{opacity:.16;animation:form-eyes-fade 10s ease-in-out both;mask-image:radial-gradient(ellipse at center,#000 40%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,#000 40%,transparent 75%)}
+.guest-sheet .social-field label,.guest-sheet .field-help{color:#766681}.guest-sheet .social-field input{color:#574263}.guest-sheet .social-field input::placeholder{color:#85748f99}
+.application-result img{opacity:.16}
+@keyframes form-figures-fade{0%,12%{opacity:.42}100%{opacity:0}}
+@keyframes form-eyes-fade{0%,8%{opacity:0}100%{opacity:.16}}
+@media(prefers-reduced-motion:reduce){.guest-sheet>.form-figures{animation:none;opacity:0}.guest-sheet>.form-eyes{animation:none;opacity:.16}.form-figures span::before{transition:none}}
+
+/* The travelling lens is decorative: clicks and typing pass straight through. */
+.floating-logo{position:fixed;left:0;top:0;margin:0;z-index:20;pointer-events:none!important;width:164px;height:62px;will-change:transform;transition:opacity .35s ease;backdrop-filter:blur(1px) saturate(1.12);-webkit-backdrop-filter:blur(1px) saturate(1.12);box-shadow:0 4px 14px #5633720d,inset 0 1px #ffffff60}
+.floating-logo[hidden]{display:none}.floating-logo.is-editing{opacity:0}
+@supports(backdrop-filter:url("#floating-glass-lens")){.floating-logo{backdrop-filter:url("#floating-glass-lens") saturate(1.12)}}
+.has-floating-logo header .glass-logo{background:none;border-color:transparent;box-shadow:none}
+.has-floating-logo header .glass-logo::before,.has-floating-logo header .glass-logo::after{display:none}
+.has-floating-logo header .glass-logo img{opacity:0}
+.has-floating-logo header .glass-logo::after{content:"nightlights.";display:grid;place-items:center;position:absolute;inset:0;background:none;mask:none;-webkit-mask:none;opacity:1;padding:0;color:#79568c;font:550 12px system-ui;letter-spacing:-.3px}
+@media(prefers-reduced-motion:reduce){.floating-logo{display:none}}
+
+/* Keep the figures; reserve the eyes for the closing section. */
+.back .back-figures,.eyes-open .back .back-figures{opacity:.65}
+.is-submitted .back .back-figures{display:grid!important;opacity:.65}
+.guest-sheet>.form-figures{animation:none;opacity:.48}
+.back .back-join{background:radial-gradient(ellipse at 92% 0%,#eacbff85,transparent 52%),linear-gradient(140deg,#9362b7,#78489f 65%);box-shadow:inset 0 1px 1px #fff8,inset -1px 0 1px #edceff55,0 3px 9px #7543911a}
+.back .back-join:hover{background:radial-gradient(ellipse at 92% 0%,#eacbff99,transparent 52%),#8050a6}
+.back .back-join.is-confirmed{background:radial-gradient(ellipse at 92% 0%,#e2ffe075,transparent 52%),#5b9b77}
+.title-button{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+.title-button .join-orbit{display:block;max-width:none;overflow:visible}
+.application-result{min-height:0;padding:18px 12px}
+.steps{position:relative;isolation:isolate}
+.steps .footer-eyes{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:-1;pointer-events:none;mix-blend-mode:multiply;opacity:0;mask-image:radial-gradient(ellipse,#000 35%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse,#000 35%,transparent 75%);transition:opacity 10s ease}
+.steps.eyes-visible .footer-eyes{opacity:.18;transition-duration:2.5s}
+@media(prefers-reduced-motion:reduce){.steps .footer-eyes{transition:none}.guest-sheet>.form-figures{opacity:.48}}

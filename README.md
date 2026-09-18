@@ -1,11 +1,15 @@
 # Night Lights
 
-Private website source and brand assets.
+Responsive nightlife guest-list visual prototype. Includes glass venue cards, six colour-changing figures, LINE/Instagram/TikTok form, simulated waitlist confirmation, floating refractive logo, and timed footer artwork.
 
-Run `python3 -m http.server 8779 --bind 127.0.0.1` from this directory, then open http://127.0.0.1:8779/mobile-preview.html for the phone preview or /index.html for the responsive page. No build or dependencies required.
+## Run
 
-Includes the chrome logo in a transparent glass capsule, neon headline, colour-changing figures and inline guest-list form. Submissions are simulated: nothing is sent or saved. Venue offers and attendance rules are illustrative.
+Run `python3 -m http.server 8779 --bind 127.0.0.1` in this folder. Open `/` for the responsive website, `/mobile-preview.html` for a phone frame, or `/screen-preview.html?view=ipad` and `?view=desktop` for larger previews. No build or dependency installation required.
 
-A separate Night Lights Supabase project exists; this website is not connected to it yet. Dedicated LINE identity, real authentication, booking and attendance verification are pending.
+## Status
 
-No credentials, private business records or guest information are included. Earlier ClubApp explorations remain in the separate ClubApp repository.
+This is a design demo: no guest information is sent or saved, no venue place is reserved, and no LINE message is sent. Venues, perks, availability and attendance requirements are examples. Dedicated Supabase project exists but is not connected. Booking identity, real submissions, venue approval and attendance verification remain future work.
+
+Motion respects reduced-motion preferences. Floating logo ignores pointer input and pauses while typing. Footer eyes appear after two seconds in view; logo moves at 22px/s horizontally and 16px/s vertically.
+
+Private source: her-3000/nightlights. Asset provenance is retained alongside the eyes image. No credentials or private business records included.
