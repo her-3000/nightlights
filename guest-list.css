@@ -174,10 +174,10 @@ header{position:sticky;top:0;z-index:10;transform:none;will-change:auto}.glass-l
 header .glass-logo{width:180px}
 header .glass-logo img{width:156px}
 /* Small changes in tube glow and reflected light, with no hard flashing. */
-.neon-headline::before{animation:neon-tube-glow 13s ease-in-out infinite}
-.neon-headline::after{animation:neon-glass-glint 19s ease-in-out infinite}
-@keyframes neon-tube-glow{0%,28%,36%,72%,100%{opacity:.28}31%{opacity:.24}34%{opacity:.3}76%{opacity:.32}84%{opacity:.28}}
-@keyframes neon-glass-glint{0%,55%,100%{opacity:.42}64%{opacity:.5}76%{opacity:.42}}
+.neon-headline::before{animation:neon-tube-glow 7s ease-in-out infinite}
+.neon-headline::after{animation:neon-glass-glint 9s ease-in-out infinite}
+@keyframes neon-tube-glow{0%,28%,36%,72%,100%{opacity:.42}31%{opacity:.35}34%{opacity:.48}76%{opacity:.58}84%{opacity:.42}}
+@keyframes neon-glass-glint{0%,55%,100%{opacity:.42}64%{opacity:.7}76%{opacity:.42}}
 @media(prefers-reduced-motion:reduce){.neon-headline::before,.neon-headline::after{animation:none}}
 @media(prefers-reduced-motion:reduce){.floating-logo{transition:none}}
 
@@ -289,3 +289,11 @@ main{padding-top:12px}
 
 /* A soft gold highlighter stroke keeps the invitation warm and understated. */
 .friends-highlight{color:inherit;font-weight:600;padding:1px 5px 2px;margin-inline:1px;border-radius:5px;background:linear-gradient(177deg,transparent 13%,#f9e58f66 22%,#f9e58f8c 76%,transparent 88%);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+/* More visible tube glow, retaining the original purple and pink lettering. */
+.neon-headline::before{filter:brightness(1.8) saturate(1.35) blur(6px);opacity:.42}
+.neon-headline img{filter:brightness(1.4) saturate(1.25) drop-shadow(-.4px -.5px .3px #fff1ff88) drop-shadow(0 0 2px #df58c449) drop-shadow(0 0 6px #b478e538)}
+@media(min-width:1100px){
+ .steps{overflow:clip}
+ .steps .footer-eyes{height:200%;top:50%;bottom:auto;transform:translateY(-50%);object-position:center}
+}
