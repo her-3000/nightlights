@@ -354,3 +354,12 @@ html:lang(th) .detail,html:lang(th) .perk{line-height:1.65}
 .floating-logo{width:213px;height:81px}
 .floating-logo img{width:185px}
 .steps-highlight{font-weight:inherit}
+
+/* Give the desktop closing section its own space beneath the cards. */
+.steps .paid-note{margin-top:30px}
+@media(min-width:1100px){
+ .steps{margin-top:28px;padding-top:16px;padding-bottom:20px;min-height:252px}
+ .steps h2{margin:22px 0 20px}
+ .steps .paid-note{margin-top:36px}
+ .steps .footer-eyes{height:590px;top:50%;transform:translateY(-50%)}
+}
