@@ -13,3 +13,5 @@ This is a design demo: no guest information is sent or saved, no venue place is 
 Motion respects reduced-motion preferences. Floating logo ignores pointer input and pauses while typing. Footer eyes appear after two seconds in view; logo moves at 22px/s horizontally and 16px/s vertically.
 
 Private source: her-3000/nightlights. Asset provenance is retained alongside the eyes image. No credentials or private business records included.
+
+After simulated booking submission, an optional bilingual newsletter dialog blurs the page. Email format validation and dismissal are implemented; no email is saved or sent. A newsletter backend remains required.

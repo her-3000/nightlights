@@ -116,7 +116,7 @@
         const details=Object.fromEntries(inputs.map((input,i)=>[platforms[i].key,input.value.trim()]));
         reuseTargets.forEach(target=>{if(target.article!==article)target.offer(details)});
         result.focus({preventScroll:true});
-        setTimeout(()=>{if(matchMedia('(max-width:699px)').matches)document.querySelector('.steps').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'end'})},1000)},2800);
+        setTimeout(()=>document.dispatchEvent(new Event('nightlights-submitted')),650)},2800);
     });
   });
   // Off-screen suggestions must not determine the phone carousel's height.

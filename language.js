@@ -1,6 +1,8 @@
 /* Translate presentation only: never rebuild forms or modify entered account values. */
 (() => {
   const pairs = {
+    'One more thing…':'อีกนิดหนึ่ง…', 'Want to join our newsletter?':'อยากรับข่าวสารจากเราไหม?', 'Stay up to date with music and new bars in Thailand.':'อัปเดตเรื่องดนตรีและบาร์เปิดใหม่ในไทย', 'Your email':'อีเมลของคุณ', 'Keep me updated':'รับข่าวสาร', 'Not now':'ไว้ก่อน', 'Close newsletter':'ปิดหน้ารับข่าวสาร', 'Thanks for your interest.':'ขอบคุณที่สนใจ', 'Email signup is coming soon.':'เปิดรับอีเมลเร็ว ๆ นี้',
+
     'Your night in':'ค่ำคืนของคุณใน', 'three steps.':'3 ขั้นตอน', 'Pick a place.':'เลือกที่เที่ยว.', 'Bring your friends.':'ชวนเพื่อนมา.',
     'Soi 11 · Hip-hop':'ซอย 11 · ฮิปฮอป', 'Soi 11 · Nightclub':'ซอย 11 · ไนต์คลับ', 'Sukhumvit 40 · Rooftop':'สุขุมวิท 40 · รูฟท็อป',
     'Entry + shared drinks':'สิทธิ์เข้างาน + เครื่องดื่มร่วมกัน', 'Entry + shared table':'สิทธิ์เข้างาน + โต๊ะร่วม', 'A rooftop night + welcome drink':'ค่ำคืนบนรูฟท็อป + เครื่องดื่มต้อนรับ',
