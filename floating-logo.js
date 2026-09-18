@@ -16,6 +16,7 @@
   document.body.append(defs);
   let x = 0, y = 0, vx = 22, vy = 16, angle = 0, targetAngle = 0;
   let frame = 0, last = 0, editing = false, maxX = 0, maxY = 0;
+  let scrollDrift = 0, previousScroll = window.scrollY;
   const edge = 14;
   function bounds(reset = false) {
     maxX = Math.max(edge, innerWidth - float.offsetWidth - edge);
@@ -33,7 +34,9 @@
     const dt = last ? Math.min((time - last) / 1000, .05) : 0;
     last = time;
     if (!editing) {
-      x += vx * dt; y += vy * dt;
+      const drift = scrollDrift * (1 - Math.exp(-dt * 3));
+      scrollDrift -= drift;
+      x += vx * dt; y += vy * dt + drift;
       let hit = false;
       if (x <= edge || x >= maxX) { x = Math.max(edge, Math.min(x, maxX)); vx *= -1; hit = true; }
       if (y <= edge || y >= maxY) { y = Math.max(edge, Math.min(y, maxY)); vy *= -1; hit = true; }
@@ -45,7 +48,7 @@
   }
   function sync() {
     cancelAnimationFrame(frame); frame = 0; last = 0;
-    float.hidden = motion.matches;
+    float.hidden = false;
     document.documentElement.classList.toggle('has-floating-logo', !motion.matches);
     if (!motion.matches && !document.hidden) frame = requestAnimationFrame(tick);
   }
@@ -53,6 +56,11 @@
     editing = !!document.activeElement?.matches('input,textarea,select,[contenteditable="true"]');
     float.classList.toggle('is-editing', editing);
   }
+  window.addEventListener('scroll', () => {
+    const delta = window.scrollY - previousScroll;
+    previousScroll = window.scrollY;
+    if (!motion.matches && !editing) scrollDrift = Math.max(-100, Math.min(100, scrollDrift - delta * .3));
+  }, { passive: true });
   document.addEventListener('focusin', focusState);
   document.addEventListener('focusout', () => queueMicrotask(focusState));
   document.addEventListener('visibilitychange', sync);

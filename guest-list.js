@@ -19,7 +19,7 @@
     availability.append(arrival);
     const result=document.createElement('section');result.className='application-result';result.hidden=true;result.tabIndex=-1;result.setAttribute('aria-live','polite');
     const venueName=article.querySelector('.front h2').textContent;
-    result.innerHTML='<span class="joined-badge">On the waitlist</span><h3></h3><p>Updates via LINE.</p><small>Demo only — nothing sent.</small>';
+    result.innerHTML='<span class="joined-badge">On the waitlist</span><h3></h3><p>Updates via LINE.</p>';
     result.querySelector('h3').textContent=venueName+' application';availability.append(result);
     const form = document.createElement('form');
     form.id = `guest-${article.id}`; form.className = 'guest-sheet'; form.hidden = true; form.noValidate = true;
@@ -71,11 +71,11 @@
       if(missing!==-1){select(missing);inputs[missing].setAttribute('aria-invalid','true');inputs[missing].focus({preventScroll:true});status.textContent=`Add your ${platforms[missing].label} to continue.`;return}
       submitting=true;submit.disabled=true;form.setAttribute('aria-busy','true');form.querySelector('.sheet-close').disabled=true;
       inputs.forEach(input=>input.readOnly=true);submit.classList.add('is-loading');status.textContent='Previewing submission…';
-      setTimeout(()=>{submitting=false;complete=true;submit.classList.remove('is-loading');submit.classList.add('is-complete');submit.querySelector('span').textContent='Submitted';form.removeAttribute('aria-busy');form.querySelector('.sheet-close').disabled=false;status.textContent='Demo complete — nothing was sent.';
+      setTimeout(()=>{submitting=false;complete=true;submit.classList.remove('is-loading');submit.classList.add('is-complete');submit.querySelector('span').textContent='Submitted';form.removeAttribute('aria-busy');form.querySelector('.sheet-close').disabled=false;status.textContent='Submitted.';
         form.hidden=true;arrival.hidden=true;article.classList.add('is-submitted');result.hidden=false;
         apply.textContent='Waitlisted';apply.disabled=true;apply.classList.add('is-confirmed');join.hidden=true;
         result.focus({preventScroll:true});
-        setTimeout(()=>{if(matchMedia('(max-width:699px)').matches)document.querySelector('.footer').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'end'})},1000)},2800);
+        setTimeout(()=>{if(matchMedia('(max-width:699px)').matches)document.querySelector('.steps').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'end'})},1000)},2800);
     });
   });
   startFigureColours();

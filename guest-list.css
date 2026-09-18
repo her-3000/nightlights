@@ -179,7 +179,7 @@ header .glass-logo img{width:156px}
 @keyframes neon-tube-glow{0%,28%,36%,72%,100%{opacity:.28}31%{opacity:.24}34%{opacity:.3}76%{opacity:.32}84%{opacity:.28}}
 @keyframes neon-glass-glint{0%,55%,100%{opacity:.42}64%{opacity:.5}76%{opacity:.42}}
 @media(prefers-reduced-motion:reduce){.neon-headline::before,.neon-headline::after{animation:none}}
-@media(prefers-reduced-motion:reduce){.floating-logo{display:none}}
+@media(prefers-reduced-motion:reduce){.floating-logo{transition:none}}
 
 /* Keep the figures; reserve the eyes for the closing section. */
 .back .back-figures,.eyes-open .back .back-figures{opacity:.65}
@@ -212,4 +212,16 @@ header .glass-logo img{width:156px}
  .perk{font-size:12px}.back{padding:12px}.back h2{font-size:22px}.back .sub,.back .detail{font-size:11px}
  .guest-sheet{padding:14px 10px 10px}.guest-sheet h3{margin:0 0 10px}.title-button{font-size:11px;width:202px}
  .hero h1.neon-headline{margin-bottom:8px}
+}
+
+/* The heading leads; the glass logo is a single free-floating ornament. */
+header{display:none}
+main{padding-top:12px}
+.hero{padding-top:0}
+@media(min-width:1100px){
+ main{padding-top:12px}
+ .hero h1.neon-headline{width:180px;margin-top:0;margin-bottom:6px}
+ .scene{height:clamp(250px,33vh,300px)}
+ .rail{padding-top:6px;padding-bottom:8px}
+ .steps{padding-bottom:8px}
 }
