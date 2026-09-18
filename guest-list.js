@@ -6,7 +6,6 @@
   document.body.append(lens);
   const platforms = [{key:'line',name:'LINE',label:'LINE ID',placeholder:'Your LINE ID'}, {key:'instagram',name:'Instagram',label:'Instagram',placeholder:'@yourname'}, {key:'tiktok',name:'TikTok',label:'TikTok',placeholder:'@yourname'}];
   const reuseTargets = [];
-  const bangkokToday = () => new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   document.querySelectorAll('.venue').forEach(article => {
     const join = article.querySelector('.availability > .request');
     join.innerHTML = '<span>Join guest list</span><svg class="join-orbit" viewBox="0 0 144 44" aria-hidden="true" focusable="false"><rect class="orbit-track" x="1.5" y="1.5" width="141" height="41" rx="20.5"/><rect class="orbit-tail" pathLength="100" x="1.5" y="1.5" width="141" height="41" rx="20.5"/><rect class="orbit-mid" pathLength="100" x="1.5" y="1.5" width="141" height="41" rx="20.5"/><rect class="orbit-head" pathLength="100" x="1.5" y="1.5" width="141" height="41" rx="20.5"/></svg>';
@@ -27,7 +26,7 @@
     form.id = `guest-${article.id}`; form.className = 'guest-sheet'; form.hidden = true; form.noValidate = true;
     const prefix = `guest-${article.id}`;
     form.setAttribute('aria-label', `${article.querySelector('.front h2').textContent} guest list`);
-    form.innerHTML = `<button class="sheet-close" type="button" aria-label="Close guest form">×</button><h3><button class="title-button" type="button">Start here</button></h3><div class="social-switch" role="tablist" aria-label="Social accounts">${platforms.map((p,i)=>`<button type="button" role="tab" id="${prefix}-${p.key}-tab" aria-controls="${prefix}-${p.key}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-index="${i}">${p.name}</button>`).join('')}</div>${platforms.map((p,i)=>`<div class="social-field" role="tabpanel" id="${prefix}-${p.key}-panel" aria-labelledby="${prefix}-${p.key}-tab" ${i?'hidden':''}><label for="${prefix}-${p.key}">${p.label}</label><input id="${prefix}-${p.key}" name="${p.key}" placeholder="${p.placeholder}" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" required></div>`).join('')}<div class="visit-date"><label for="${prefix}-date">Your date</label><input type="date" id="${prefix}-date" name="visitDate" required aria-label="Your date"></div><p class="field-help" aria-live="polite">Add your three accounts. Tap or slide to switch.</p><button class="submit-guest" type="submit" hidden><span aria-live="polite">Submit</span></button>`;
+    form.innerHTML = `<button class="sheet-close" type="button" aria-label="Close guest form">×</button><h3><button class="title-button" type="button">Start here</button></h3><div class="social-switch" role="tablist" aria-label="Social accounts">${platforms.map((p,i)=>`<button type="button" role="tab" id="${prefix}-${p.key}-tab" aria-controls="${prefix}-${p.key}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-index="${i}">${p.name}</button>`).join('')}</div>${platforms.map((p,i)=>`<div class="social-field" role="tabpanel" id="${prefix}-${p.key}-panel" aria-labelledby="${prefix}-${p.key}-tab" ${i?'hidden':''}><label for="${prefix}-${p.key}">${p.label}</label><input id="${prefix}-${p.key}" name="${p.key}" placeholder="${p.placeholder}" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" required></div>`).join('')}<div class="visit-dates"></div><p class="field-help" aria-live="polite">Add your three accounts. Tap or slide to switch.</p><button class="submit-guest" type="submit" hidden><span aria-live="polite">Submit</span></button>`;
     const formFigures=article.querySelector('.meter').cloneNode(true);formFigures.className='form-figures';form.prepend(formFigures);
     article.querySelector('.availability').append(form);
     form.querySelector('.title-button').insertAdjacentHTML('beforeend', join.querySelector('svg').outerHTML);
@@ -36,26 +35,27 @@
     const tabs = [...form.querySelectorAll('[role=tab]')], panels = [...form.querySelectorAll('[role=tabpanel]')], inputs = [...form.querySelectorAll('.social-field input')];
     const toggle = form.querySelector('.social-switch'), submit = form.querySelector('.submit-guest'), status = form.querySelector('.field-help');
     let selected = 0, openingTimer, submitting = false, complete = false, opener = join;
-    const dateInput = form.querySelector('[name=visitDate]');
-    dateInput.min = bangkokToday();
-    dateInput.addEventListener('input', () => {dateInput.removeAttribute('aria-invalid');status.textContent='Choose a date and add your three accounts.'});
+    const dates = createNightDates(form.querySelector('.visit-dates'), prefix);
     const reuse = document.createElement('section');
     reuse.className='reuse-details';reuse.hidden=true;
-    reuse.innerHTML='<p class="reuse-heading"></p><p class="reuse-question">Same details for this venue?</p><p class="reuse-summary"></p><button type="button">Use same details</button><small>Choose a separate date</small>';
+    reuse.innerHTML='<p class="reuse-heading"></p><p class="reuse-question">Join this venue as well?</p><p class="reuse-summary"></p><button type="button">Start here</button><small>Complete your three accounts first</small>';
     reuse.querySelector('.reuse-heading').textContent=venueName;
     availability.append(reuse);
     let suggested = null;
     reuseTargets.push({article, offer(details) {
       if(complete || submitting || inputs.some(input=>input.value.trim()))return;
       suggested={...details};
-      reuse.querySelector('.reuse-summary').textContent=platforms.map(p=>p.name+': '+details[p.key]).join(' · ');
-      reuse.hidden=false;availability.classList.add('has-suggestion');
+      const ready=platforms.every(p=>details[p.key]&&details[p.key]!=='@');
+      reuse.querySelector('button').disabled=!ready;
+      reuse.querySelector('small').textContent=ready?'Use these details · choose your dates':'Complete your three accounts first';
+      reuse.querySelector('.reuse-summary').textContent=platforms.map(p=>p.name+': '+(details[p.key]||'—')).join(' · ');
+      const any=platforms.some(p=>details[p.key]);reuse.hidden=!any;availability.classList.toggle('has-suggestion',any);
     }});
     reuse.querySelector('button').addEventListener('click',()=>{
-      if(!suggested)return;
+      if(!suggested||!platforms.every(p=>suggested[p.key]&&suggested[p.key]!=='@'))return;
       inputs.forEach((input,i)=>{if(!input.value.trim()){input.value=suggested[platforms[i].key];tabs[i].classList.add('is-filled')}});
       reuse.hidden=true;availability.classList.remove('has-suggestion');openForm(apply);
-      dateInput.min=bangkokToday();dateInput.focus({preventScroll:true});
+      dates.focus();
     });
 
     function select(index, focusTab=false) {
@@ -77,7 +77,10 @@
     toggle.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragStart={x:e.clientX,id:e.pointerId};e.stopPropagation()});
     toggle.addEventListener('pointermove',e=>{if(!dragStart||e.pointerId!==dragStart.id||Math.abs(e.clientX-dragStart.x)<8)return;toggle.setPointerCapture(e.pointerId);const box=toggle.getBoundingClientRect();select(Math.max(0,Math.min(2,Math.floor((e.clientX-box.left)/box.width*3))))});
     for(const event of ['pointerup','pointercancel']) toggle.addEventListener(event,()=>{dragStart=null});
-    inputs.forEach((input,i)=>input.addEventListener('input',()=>{tabs[i].classList.toggle('is-filled',!!input.value.trim());input.removeAttribute('aria-invalid');status.textContent='Add your three accounts. Tap or slide to switch.'}));
+    inputs.forEach((input,i)=>input.addEventListener('input',()=>{tabs[i].classList.toggle('is-filled',!!input.value.trim());input.removeAttribute('aria-invalid');status.textContent='Add your three accounts. Tap or slide to switch.';
+      const details=Object.fromEntries(inputs.map((field,j)=>[platforms[j].key,field.value.trim()]));
+      reuseTargets.forEach(target=>{if(target.article!==article)target.offer(details)});
+    }));
     function openForm(source){
       if(complete||availability.classList.contains('application-open'))return;
       opener=source;availability.classList.add('application-open');
@@ -86,23 +89,22 @@
     }
     apply.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();openForm(apply)});
     join.addEventListener('click',()=>openForm(join));
-    function close(){if(submitting)return;clearTimeout(openingTimer);form.hidden=true;arrival.hidden=true;article.classList.remove('eyes-open');availability.classList.remove('application-open');apply.setAttribute('aria-expanded','false');join.hidden=false;join.classList.remove('join-opening');join.disabled=false;opener.focus({preventScroll:true})}
+    function close(){if(submitting)return;dates.close();clearTimeout(openingTimer);form.hidden=true;arrival.hidden=true;article.classList.remove('eyes-open');availability.classList.remove('application-open');apply.setAttribute('aria-expanded','false');join.hidden=false;join.classList.remove('join-opening');join.disabled=false;opener.focus({preventScroll:true})}
     form.querySelector('.sheet-close').addEventListener('click',close);
     form.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
     form.addEventListener('submit',event=>{
       event.preventDefault();if(submitting||complete)return;
       const missing=inputs.findIndex(input=>!input.value.trim()||input.value.trim()==='@');
       if(missing!==-1){select(missing);inputs[missing].setAttribute('aria-invalid','true');inputs[missing].focus({preventScroll:true});status.textContent=`Add your ${platforms[missing].label} to continue.`;return}
-      dateInput.min=bangkokToday();
-      if(!dateInput.value || !dateInput.validity.valid){dateInput.setAttribute('aria-invalid','true');dateInput.focus({preventScroll:true});status.textContent='Choose today or a future date.';return}
-      reuse.hidden=true;availability.classList.remove('has-suggestion');
-      dateInput.readOnly=true;
+      const chosenDates=dates.values();
+      if(!chosenDates.length){dates.focus();status.textContent='Choose at least one date within the next nine days.';return}
+      reuse.hidden=true;availability.classList.remove('has-suggestion');dates.lock();
       submitting=true;submit.disabled=true;form.setAttribute('aria-busy','true');form.querySelector('.sheet-close').disabled=true;
       inputs.forEach(input=>input.readOnly=true);submit.classList.add('is-loading');status.textContent='Submitting…';
       setTimeout(()=>{submitting=false;complete=true;submit.classList.remove('is-loading');submit.classList.add('is-complete');submit.querySelector('span').textContent='Submitted';form.removeAttribute('aria-busy');form.querySelector('.sheet-close').disabled=false;status.textContent='Submitted.';
         form.hidden=true;arrival.hidden=true;article.classList.add('is-submitted');result.hidden=false;
         apply.textContent='Waitlisted';apply.disabled=true;apply.classList.add('is-confirmed');join.hidden=true;
-        result.querySelector('h3').textContent=venueName+' · '+new Intl.DateTimeFormat(undefined,{day:'numeric',month:'short',year:'numeric'}).format(new Date(dateInput.value+'T12:00:00'));
+        result.querySelector('h3').textContent=venueName+' · '+chosenDates.map(dates.format).join(', ');
         const details=Object.fromEntries(inputs.map((input,i)=>[platforms[i].key,input.value.trim()]));
         reuseTargets.forEach(target=>{if(target.article!==article)target.offer(details)});
         result.focus({preventScroll:true});
