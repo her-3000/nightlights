@@ -95,6 +95,7 @@
       if(missing!==-1){select(missing);inputs[missing].setAttribute('aria-invalid','true');inputs[missing].focus({preventScroll:true});status.textContent=`Add your ${platforms[missing].label} to continue.`;return}
       dateInput.min=bangkokToday();
       if(!dateInput.value || !dateInput.validity.valid){dateInput.setAttribute('aria-invalid','true');dateInput.focus({preventScroll:true});status.textContent='Choose today or a future date.';return}
+      reuse.hidden=true;availability.classList.remove('has-suggestion');
       dateInput.readOnly=true;
       submitting=true;submit.disabled=true;form.setAttribute('aria-busy','true');form.querySelector('.sheet-close').disabled=true;
       inputs.forEach(input=>input.readOnly=true);submit.classList.add('is-loading');status.textContent='Submitting…';
