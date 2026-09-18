@@ -37,6 +37,7 @@
     const toggle = form.querySelector('.social-switch'), submit = form.querySelector('.submit-guest'), status = form.querySelector('.field-help');
     let selected = 0, openingTimer, submitting = false, complete = false, opener = join;
     const dates = createNightDates(form.querySelector('.visit-dates'), prefix);
+    document.addEventListener('nightlights-language',()=>{if(complete)result.querySelector('h3').textContent=venueName+' · '+dates.values().map(dates.format).join(', ')});
     const reuse = document.createElement('section');
     reuse.className='reuse-details';reuse.hidden=true;
     reuse.innerHTML='<p class="reuse-question">Join this venue as well?</p><p class="reuse-summary"></p><div class="reuse-dates"></div><button class="reuse-book" type="button"></button><small>Finish your three accounts first</small>';
