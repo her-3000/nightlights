@@ -323,17 +323,16 @@ main{padding-top:12px}
 .submit-guest.is-complete::before{background:linear-gradient(90deg,#f4bedb,#e994c3)}
 .guest-sheet .submit-guest.is-complete{color:#88375f}
 
-/* Sugar experiment: a bright inner tube, with light breathing through outer rings. */
-#sugar .rings{border:2px solid #ffe4fa;box-shadow:0 0 3px #fff4fc,inset 0 0 4px #ffd4ee,0 0 11px #ff8dd2aa,inset 0 0 12px #ff91d075,0 0 0 23px #ffc1eb16,0 0 0 46px #ffc1eb0e,0 0 0 69px #ffc1eb08;animation:sugar-tube 5.5s ease-in-out infinite}
-#sugar .rings::before,#sugar .rings::after{content:"";position:absolute;border:1px solid #ffcaee80;border-radius:50%;pointer-events:none;animation:sugar-ring-wave 5.5s ease-in-out infinite}
-#sugar .rings::before{inset:-24px;animation-delay:.25s}
-#sugar .rings::after{inset:-47px;animation-delay:.65s}
-@keyframes sugar-tube{0%,100%{filter:brightness(1);opacity:.85}48%{filter:brightness(1.25);opacity:1}}
-@keyframes sugar-ring-wave{0%,100%{opacity:.2;box-shadow:0 0 3px #ff9cda20}50%{opacity:.7;box-shadow:0 0 10px #ff9cda65}}
 /* Each face settles upright; the click location determines the travelling axis. */
 .scene{perspective:900px}
 .inner,.flipped .inner{transform:none;transition:none}
 .back{transform:none}
 .face{transition:none}
 .scene[data-turning]{z-index:4}
-@media(prefers-reduced-motion:reduce){#sugar .rings,#sugar .rings::before,#sugar .rings::after{animation:none}}
+
+
+/* Low-resolution ring artwork keeps the original quiet palette. */
+.rings{border:0;box-shadow:none;background:url("assets/pixel-rings.svg") center/100% 100% no-repeat;image-rendering:pixelated;width:383px;height:383px;right:-135px;top:-39px}
+.back .maps{color:#bc4764;padding-bottom:6px;text-underline-offset:4px}
+.back .back-join{margin-top:12px}
+@media(min-width:700px){.back .back-join{margin-top:10px}}
