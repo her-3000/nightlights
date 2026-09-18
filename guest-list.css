@@ -193,7 +193,7 @@ header .glass-logo img{width:156px}
 .application-result{min-height:0;padding:18px 12px}
 .steps{position:relative;isolation:isolate}
 .steps .footer-eyes{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:-1;pointer-events:none;mix-blend-mode:multiply;opacity:0;mask-image:radial-gradient(ellipse,#000 35%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse,#000 35%,transparent 75%);transition:opacity 10s ease}
-.steps.eyes-visible .footer-eyes{opacity:.18;transition-duration:2.5s}
+.steps.eyes-visible .footer-eyes{opacity:.18;transition-duration:1.25s}
 @media(prefers-reduced-motion:reduce){.steps .footer-eyes{transition:none}.guest-sheet>.form-figures{opacity:.48}}
 
 /* Centre the visible lettering (the PNG has asymmetric transparent margins). */
@@ -225,3 +225,27 @@ main{padding-top:12px}
  .rail{padding-top:6px;padding-bottom:8px}
  .steps{padding-bottom:8px}
 }
+
+/* Compact calendar, echoing the SOPHS application control. */
+.visit-date{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 2px}
+.visit-date label{font-size:11px;color:#786983}
+.visit-date input{font:12px system-ui;color:#67546f;width:152px;max-width:100%;height:36px;border:1px solid #ffffff55;border-radius:18px;padding:4px 9px;background:#ffffff12;min-width:0;color-scheme:light}
+.visit-date input:invalid{width:44px;color:transparent}
+.visit-date input:invalid::-webkit-datetime-edit{display:none}
+.visit-date input::-webkit-calendar-picker-indicator{opacity:.5;cursor:pointer}
+.visit-date input:invalid::-webkit-calendar-picker-indicator{margin:auto}
+.visit-date input:focus-visible{outline:2px solid #956cb6;outline-offset:2px}
+.venue .availability.has-suggestion{display:block;min-height:0}
+.reuse-details{margin:8px 0;padding:12px;border:1px solid #ffffff28;border-radius:22px;background:#ffffff08;color:#817985;text-align:center}
+.reuse-details[hidden]{display:none}
+.reuse-details p{margin:4px 0;font-size:11px;font-weight:400}
+.reuse-details .reuse-heading{font-size:10px;letter-spacing:1px;opacity:.6}
+.reuse-details .reuse-summary{opacity:.5;font-size:10px;overflow-wrap:anywhere;line-height:1.5}
+.reuse-details button{min-height:36px;border:1px solid #baa9c53d;border-radius:20px;padding:7px 13px;background:#e3d9eb20;color:#7d688a;font-size:11px}
+.reuse-details small{display:block;font-size:9px;margin-top:5px;opacity:.6}
+@media(min-width:700px){.visit-date{margin-top:5px}.visit-date input{height:32px}.guest-sheet .field-help{font-size:10px;margin:4px 0}.reuse-details{padding:10px}}
+
+.reuse-details{animation:reuse-reveal .7s ease both}
+.venue:nth-child(3) .reuse-details{animation-delay:.25s}
+@keyframes reuse-reveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.reuse-details{animation:none}}

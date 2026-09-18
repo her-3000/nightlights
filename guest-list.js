@@ -5,6 +5,8 @@
   lens.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg"><defs><filter id="nightlights-lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".012 .025" numOctaves="1" seed="8" result="bend"/><feGaussianBlur in="bend" stdDeviation="2" result="smooth"/><feDisplacementMap in="SourceGraphic" in2="smooth" scale="7" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>';
   document.body.append(lens);
   const platforms = [{key:'line',name:'LINE',label:'LINE ID',placeholder:'Your LINE ID'}, {key:'instagram',name:'Instagram',label:'Instagram',placeholder:'@yourname'}, {key:'tiktok',name:'TikTok',label:'TikTok',placeholder:'@yourname'}];
+  const reuseTargets = [];
+  const bangkokToday = () => new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   document.querySelectorAll('.venue').forEach(article => {
     const join = article.querySelector('.availability > .request');
     join.innerHTML = '<span>Join guest list</span><svg class="join-orbit" viewBox="0 0 144 44" aria-hidden="true" focusable="false"><rect class="orbit-track" x="1.5" y="1.5" width="141" height="41" rx="20.5"/><rect class="orbit-tail" pathLength="100" x="1.5" y="1.5" width="141" height="41" rx="20.5"/><rect class="orbit-mid" pathLength="100" x="1.5" y="1.5" width="141" height="41" rx="20.5"/><rect class="orbit-head" pathLength="100" x="1.5" y="1.5" width="141" height="41" rx="20.5"/></svg>';
@@ -25,15 +27,37 @@
     form.id = `guest-${article.id}`; form.className = 'guest-sheet'; form.hidden = true; form.noValidate = true;
     const prefix = `guest-${article.id}`;
     form.setAttribute('aria-label', `${article.querySelector('.front h2').textContent} guest list`);
-    form.innerHTML = `<button class="sheet-close" type="button" aria-label="Close guest form">×</button><h3><button class="title-button" type="button">Your night starts here</button></h3><div class="social-switch" role="tablist" aria-label="Social accounts">${platforms.map((p,i)=>`<button type="button" role="tab" id="${prefix}-${p.key}-tab" aria-controls="${prefix}-${p.key}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-index="${i}">${p.name}</button>`).join('')}</div>${platforms.map((p,i)=>`<div class="social-field" role="tabpanel" id="${prefix}-${p.key}-panel" aria-labelledby="${prefix}-${p.key}-tab" ${i?'hidden':''}><label for="${prefix}-${p.key}">${p.label}</label><input id="${prefix}-${p.key}" name="${p.key}" placeholder="${p.placeholder}" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" required></div>`).join('')}<p class="field-help" aria-live="polite">Add your three accounts. Tap or slide to switch.</p><button class="submit-guest" type="submit" hidden><span aria-live="polite">Submit</span></button>`;
+    form.innerHTML = `<button class="sheet-close" type="button" aria-label="Close guest form">×</button><h3><button class="title-button" type="button">Your night starts here</button></h3><div class="social-switch" role="tablist" aria-label="Social accounts">${platforms.map((p,i)=>`<button type="button" role="tab" id="${prefix}-${p.key}-tab" aria-controls="${prefix}-${p.key}-panel" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-index="${i}">${p.name}</button>`).join('')}</div>${platforms.map((p,i)=>`<div class="social-field" role="tabpanel" id="${prefix}-${p.key}-panel" aria-labelledby="${prefix}-${p.key}-tab" ${i?'hidden':''}><label for="${prefix}-${p.key}">${p.label}</label><input id="${prefix}-${p.key}" name="${p.key}" placeholder="${p.placeholder}" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" required></div>`).join('')}<div class="visit-date"><label for="${prefix}-date">Your date</label><input type="date" id="${prefix}-date" name="visitDate" required aria-label="Your date"></div><p class="field-help" aria-live="polite">Add your three accounts. Tap or slide to switch.</p><button class="submit-guest" type="submit" hidden><span aria-live="polite">Submit</span></button>`;
     const formFigures=article.querySelector('.meter').cloneNode(true);formFigures.className='form-figures';form.prepend(formFigures);
     article.querySelector('.availability').append(form);
     form.querySelector('.title-button').insertAdjacentHTML('beforeend', join.querySelector('svg').outerHTML);
     const titleOrbit=form.querySelector('.title-button svg');titleOrbit.setAttribute('viewBox','0 0 202 34');titleOrbit.setAttribute('preserveAspectRatio','none');titleOrbit.querySelectorAll('rect').forEach(rect=>{rect.setAttribute('width','199');rect.setAttribute('height','31');rect.setAttribute('rx','15.5')});
-    form.querySelector('.title-button').addEventListener('click',()=>form.querySelectorAll('input')[selected].focus({preventScroll:true}));
-    const tabs = [...form.querySelectorAll('[role=tab]')], panels = [...form.querySelectorAll('[role=tabpanel]')], inputs = [...form.querySelectorAll('input')];
+    form.querySelector('.title-button').addEventListener('click',()=>form.querySelectorAll('.social-field input')[selected].focus({preventScroll:true}));
+    const tabs = [...form.querySelectorAll('[role=tab]')], panels = [...form.querySelectorAll('[role=tabpanel]')], inputs = [...form.querySelectorAll('.social-field input')];
     const toggle = form.querySelector('.social-switch'), submit = form.querySelector('.submit-guest'), status = form.querySelector('.field-help');
     let selected = 0, openingTimer, submitting = false, complete = false, opener = join;
+    const dateInput = form.querySelector('[name=visitDate]');
+    dateInput.min = bangkokToday();
+    dateInput.addEventListener('input', () => {dateInput.removeAttribute('aria-invalid');status.textContent='Choose a date and add your three accounts.'});
+    const reuse = document.createElement('section');
+    reuse.className='reuse-details';reuse.hidden=true;
+    reuse.innerHTML='<p class="reuse-heading"></p><p class="reuse-question">Same details for this venue?</p><p class="reuse-summary"></p><button type="button">Use same details</button><small>Choose a separate date</small>';
+    reuse.querySelector('.reuse-heading').textContent=venueName;
+    availability.append(reuse);
+    let suggested = null;
+    reuseTargets.push({article, offer(details) {
+      if(complete || submitting || inputs.some(input=>input.value.trim()))return;
+      suggested={...details};
+      reuse.querySelector('.reuse-summary').textContent=platforms.map(p=>p.name+': '+details[p.key]).join(' · ');
+      reuse.hidden=false;availability.classList.add('has-suggestion');
+    }});
+    reuse.querySelector('button').addEventListener('click',()=>{
+      if(!suggested)return;
+      inputs.forEach((input,i)=>{if(!input.value.trim()){input.value=suggested[platforms[i].key];tabs[i].classList.add('is-filled')}});
+      reuse.hidden=true;availability.classList.remove('has-suggestion');openForm(apply);
+      dateInput.min=bangkokToday();dateInput.focus({preventScroll:true});
+    });
+
     function select(index, focusTab=false) {
       selected = index; toggle.style.setProperty('--selected',index);
       tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;panels[i].hidden=i!==index});
@@ -69,11 +93,17 @@
       event.preventDefault();if(submitting||complete)return;
       const missing=inputs.findIndex(input=>!input.value.trim()||input.value.trim()==='@');
       if(missing!==-1){select(missing);inputs[missing].setAttribute('aria-invalid','true');inputs[missing].focus({preventScroll:true});status.textContent=`Add your ${platforms[missing].label} to continue.`;return}
+      dateInput.min=bangkokToday();
+      if(!dateInput.value || !dateInput.validity.valid){dateInput.setAttribute('aria-invalid','true');dateInput.focus({preventScroll:true});status.textContent='Choose today or a future date.';return}
+      dateInput.readOnly=true;
       submitting=true;submit.disabled=true;form.setAttribute('aria-busy','true');form.querySelector('.sheet-close').disabled=true;
-      inputs.forEach(input=>input.readOnly=true);submit.classList.add('is-loading');status.textContent='Previewing submission…';
+      inputs.forEach(input=>input.readOnly=true);submit.classList.add('is-loading');status.textContent='Submitting…';
       setTimeout(()=>{submitting=false;complete=true;submit.classList.remove('is-loading');submit.classList.add('is-complete');submit.querySelector('span').textContent='Submitted';form.removeAttribute('aria-busy');form.querySelector('.sheet-close').disabled=false;status.textContent='Submitted.';
         form.hidden=true;arrival.hidden=true;article.classList.add('is-submitted');result.hidden=false;
         apply.textContent='Waitlisted';apply.disabled=true;apply.classList.add('is-confirmed');join.hidden=true;
+        result.querySelector('h3').textContent=venueName+' · '+new Intl.DateTimeFormat(undefined,{day:'numeric',month:'short',year:'numeric'}).format(new Date(dateInput.value+'T12:00:00'));
+        const details=Object.fromEntries(inputs.map((input,i)=>[platforms[i].key,input.value.trim()]));
+        reuseTargets.forEach(target=>{if(target.article!==article)target.offer(details)});
         result.focus({preventScroll:true});
         setTimeout(()=>{if(matchMedia('(max-width:699px)').matches)document.querySelector('.steps').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'end'})},1000)},2800);
     });
