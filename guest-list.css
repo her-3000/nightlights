@@ -299,7 +299,7 @@ main{padding-top:12px}
 }
 
 /* The portrait slowly emerges behind the form; the neon figures remain present. */
-.guest-sheet>.application-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:-1;pointer-events:none;mix-blend-mode:multiply;opacity:0;mask-image:radial-gradient(ellipse,#000 32%,transparent 74%);-webkit-mask-image:radial-gradient(ellipse,#000 32%,transparent 74%);animation:application-portrait 12s ease-in-out 2s forwards}
+.guest-sheet>.application-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;z-index:-1;pointer-events:none;mix-blend-mode:multiply;opacity:0;mask-image:radial-gradient(ellipse,#000 32%,transparent 74%);-webkit-mask-image:radial-gradient(ellipse,#000 32%,transparent 74%);animation:application-portrait 1.25s ease 2s forwards}
 @keyframes application-portrait{0%{opacity:.02}100%{opacity:.18}}
 @media(prefers-reduced-motion:reduce){.guest-sheet>.application-art{animation:none;opacity:.18}}
 
