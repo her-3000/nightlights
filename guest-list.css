@@ -384,3 +384,8 @@ html:lang(th) .detail,html:lang(th) .perk{line-height:1.65}
 .newsletter-skip{border:0;background:none;color:#8b7597;font-size:11px;margin-top:8px;padding:8px 18px}
 .newsletter-open{overflow:hidden}.newsletter-open .floating-logo{opacity:0}
 .newsletter-modal [hidden]{display:none!important}
+
+/* Feather the eyes against their own image bounds, not the full-width footer. */
+.steps .footer-eyes{inset:auto;left:50%;top:50%;width:min(100%,440px);height:auto;aspect-ratio:4/3;transform:translate(-50%,-50%);border-radius:50%;mask-image:radial-gradient(ellipse closest-side,#000 18%,#000b 44%,#0004 70%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse closest-side,#000 18%,#000b 44%,#0004 70%,transparent 100%)}
+@media(min-width:700px){.steps .footer-eyes{width:min(100%,600px)}}
+@media(min-width:1100px){.steps .footer-eyes{width:min(100%,786px)}}
