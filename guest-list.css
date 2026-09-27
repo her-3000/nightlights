@@ -389,3 +389,66 @@ html:lang(th) .detail,html:lang(th) .perk{line-height:1.65}
 .steps .footer-eyes{inset:auto;left:50%;top:50%;width:min(100%,440px);height:auto;aspect-ratio:4/3;transform:translate(-50%,-50%);border-radius:50%;mask-image:radial-gradient(ellipse closest-side,#000 18%,#000b 44%,#0004 70%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse closest-side,#000 18%,#000b 44%,#0004 70%,transparent 100%)}
 @media(min-width:700px){.steps .footer-eyes{width:min(100%,600px)}}
 @media(min-width:1100px){.steps .footer-eyes{width:min(100%,786px)}}
+
+/* Glossy white and pink coated-paper direction from Callum's reference. */
+body{
+ background-color:#f8f7f0;
+ background-image:url("assets/white-pink-plastic-phone.webp?v=37");
+ background-repeat:no-repeat;
+ background-position:center center;
+ background-size:cover;
+ background-attachment:fixed;
+ color:#382831;
+}
+body::before{content:none}
+.hero .eyebrow{color:#a34f70}
+.hero p,.steps p{color:#5f4a52}
+.hero h1,.steps h2,.steps strong{color:#382831}
+.hero h1 span,.ribbon,.swipe-hint{color:#cf477c}
+.friends-highlight{background:linear-gradient(177deg,transparent 13%,#f4a9c566 22%,#f4a9c58c 76%,transparent 88%)}
+.venue .front{
+ background:linear-gradient(135deg,#fffefa 0%,#fff7f8 44%,#f8d9e5 100%);
+ color:#392a31;border-color:#fffdf9;box-shadow:0 14px 32px #8f486524,inset 0 1px 0 #fff;
+}
+.venue .card-brand{color:#49333d}
+.venue .area,.venue .turn-hint{color:#8b596e}
+.venue .front h2{color:#ad3e6b}
+.venue .rings{opacity:.16;filter:sepia(.25) saturate(.55) hue-rotate(285deg)}
+.venue .back{
+ background:linear-gradient(145deg,#fffefa 0%,#fff5f7 53%,#f5c4d7 100%);
+ color:#392a31;border-color:#fffdf9;box-shadow:inset 0 1px 0 #fff,0 12px 30px #8f486522;
+}
+.venue .back .eyebrow{color:#ad3e6b!important}
+.venue .back .sub,.venue .detail{color:#634d56}
+.venue .detail small{color:#a04d6c}
+.venue .back .maps{color:#a83365}
+.venue .back .card-orbit{stroke:#df7da2}
+.request,.back .back-join{
+ border:1px solid #e5a1bc;background:linear-gradient(110deg,#fffefa,#f5c4d7);
+ color:#71334f;box-shadow:inset 0 1px 0 #fff,0 5px 16px #a1486b20;
+}
+.language-switch{background:linear-gradient(110deg,#fffdf4b8,#f7d8e6b8);border-color:#fff9;box-shadow:inset 0 1px 1px #fff,0 3px 12px #8f48650d}
+.language-switch>span{background:linear-gradient(110deg,#fff8f1,#ee8eb3);box-shadow:inset 0 1px 1px #fff,0 2px 6px #8f48651b}
+.language-switch button{color:#754a5e}
+.language-switch button[aria-pressed=true]{color:#592c43}
+.meter span::before{background:#e985aa!important}
+.meter span.lit::before{background:#c94075!important}
+.availability p{color:#573945}
+.status{color:#9d4f6c}
+.glass-logo{background:linear-gradient(145deg,#fffefaad,#f7cada55 52%,#ed77a330);border-color:#fff9;box-shadow:0 5px 14px #8f486512,inset 0 1px 1px #fff}
+.glass-logo::before{background:conic-gradient(from 30deg,#fff8,#f6bfd4a6,#eb80a890,#fff4)}
+.newsletter-modal{background:linear-gradient(135deg,#fffef9f2,#f8e3eccc 52%,#f1bbd2cc);color:#503743;border-color:#fff;box-shadow:0 20px 70px #77334a25,inset 0 1px 1px #fff}
+.newsletter-modal h2{color:#793b57}
+.newsletter-modal .newsletter-close,.newsletter-modal .newsletter-skip{color:#80576a}
+.newsletter-form label{color:#765668}
+.newsletter-form input{color:#503743;border-color:#fff;background:#fff7}
+.newsletter-submit,.newsletter-done{background:linear-gradient(110deg,#f4dce5,#e989ad);color:#633348;border-color:#fff;box-shadow:inset 0 1px #fff}
+
+
+/* Art-directed material images keep the same seam and crinkle scale in each viewport. */
+@media (min-width:700px) and (max-width:1099px){
+ body{background-image:url("assets/white-pink-plastic-tablet.webp?v=37")}
+}
+@media (min-width:1100px){
+ body{background-image:url("assets/white-pink-plastic-desktop.webp?v=37")}
+}

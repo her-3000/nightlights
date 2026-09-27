@@ -1,22 +1,48 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Night Lights · Screen previews</title>
+<title>Night Lights · iPhone preview</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f2f5;color:#615b69;font:13px system-ui}nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px}a{color:inherit;text-decoration:none;padding:8px 14px;border-radius:20px}a[aria-current=page]{background:#fff;color:#30283c}#size{font-size:11px}main{margin:0 auto 24px;position:relative}iframe{position:absolute;top:0;left:0;border:0;transform-origin:top left;background:#faf6ff;box-shadow:0 8px 32px #30283c12}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#f4edf1;color:#493943;font:14px system-ui,sans-serif}
+nav{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#f4edf1ed;backdrop-filter:blur(10px)}
+a{color:inherit;text-decoration:none;padding:8px 14px;border:1px solid #ddcbd4;border-radius:999px;background:#fff9}
+a[aria-current=page]{background:#dc7fa6;color:white;border-color:#dc7fa6}
+#size{font-size:12px;margin-left:8px;color:#76616d}
+#stage{position:relative;margin:0 auto 24px;transform-origin:top center}
+#device{position:absolute;inset:0 auto auto 0;padding:8px;background:#171519;border:1px solid #aaa1a6;box-shadow:0 16px 48px #34222f30;overflow:hidden}
+#device[data-mode=iphone]{border-radius:40px}
+#device[data-mode=ipad]{border-radius:26px}
+#device[data-mode=desktop]{padding:0;border-radius:8px}
+iframe{display:block;border:0;background:#fff;width:100%;height:100%}
+#device[data-mode=iphone] iframe{border-radius:32px}
+@media(max-width:700px){nav{gap:5px;padding:10px 4px}a{padding:8px 10px;font-size:12px}#size{font-size:10px;margin-left:2px}}
 </style>
-<nav aria-label="Preview size"><a href="?view=ipad" id="ipad">iPad</a><a href="?view=desktop" id="desktop">Computer</a><span id="size"></span></nav>
-<main><iframe title="Night Lights responsive preview" src="index.html?v=nightlights-calendar-v20"></iframe></main>
+</head>
+<body>
+<nav aria-label="Preview size">
+<a href="?view=iphone" id="iphone">iPhone</a>
+<a href="?view=ipad" id="ipad">iPad</a>
+<a href="?view=desktop" id="desktop">Desktop</a>
+<span id="size"></span>
+</nav>
+<main id="stage"><div id="device"><iframe title="Night Lights responsive preview"></iframe></div></main>
 <script>
-const mode=new URLSearchParams(location.search).get('view')==='desktop'?'desktop':'ipad';
-const [width,height]=mode==='desktop'?[1440,900]:[834,1194];
-document.title=`Night Lights · ${mode==='desktop'?'Computer':'iPad'} preview`;
+const sizes={iphone:[390,844],ipad:[834,1194],desktop:[1440,900]};
+const params=new URLSearchParams(location.search);
+const mode=sizes[params.get('view')]?params.get('view'):'iphone';
+const [width,height]=sizes[mode];
+document.title=`Night Lights · ${mode==='desktop'?'Desktop':mode==='ipad'?'iPad':'iPhone'} preview`;
 document.getElementById(mode).setAttribute('aria-current','page');
-document.getElementById('size').textContent=`${width} × ${height}`;
-const frame=document.querySelector('iframe'),stage=document.querySelector('main');
-frame.style.width=width+'px';frame.style.height=height+'px';
-function fit(){const scale=Math.min(1,(innerWidth-32)/width);stage.style.width=width*scale+'px';stage.style.height=height*scale+'px';frame.style.transform=`scale(${scale})`;}
+document.getElementById('size').textContent=`${width} × ${height} CSS px`;
+const device=document.getElementById('device'),stage=document.getElementById('stage'),frame=device.querySelector('iframe');
+device.dataset.mode=mode;frame.src=`index.html?v=nightlights-calendar-v37&viewport=${mode}`;
+const outerWidth=width+(mode==='desktop'?0:16),outerHeight=height+(mode==='desktop'?0:16);
+device.style.width=outerWidth+'px';device.style.height=outerHeight+'px';
+function fit(){const scale=Math.min(1,(innerWidth-24)/outerWidth,(innerHeight-76)/outerHeight);stage.style.width=outerWidth*scale+'px';stage.style.height=outerHeight*scale+'px';stage.style.transform=`scale(${scale})`;}
 addEventListener('resize',fit);fit();
 </script>
+</body>
 </html>
